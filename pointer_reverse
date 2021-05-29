@@ -1,0 +1,23 @@
+#include <iostream>
+
+void Reversed (int* pArr, int size){
+  int reversedArr [size];
+  for(int i = 0; i < size; i++){
+    reversedArr[i] = *&pArr[size-1-i];
+    std::cout << reversedArr[i] << " ";
+  }
+}
+
+void ReverseAlt (int* pArrAlt){
+  for (int j = 9; j >= 0; j--){
+    std::cout << *(pArrAlt + j)  << " ";
+  }
+}
+
+int main() {
+  int magic [10] = {0,1,2,3,4,5,6,7,8,9};
+  int* pMagic = magic;
+  Reversed(pMagic, 10);
+  std::cout << std::endl;
+  ReverseAlt (pMagic);
+}
