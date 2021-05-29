@@ -1,0 +1,53 @@
+#include <iostream>
+
+int main() {
+
+  float M [4][4];
+  float V [4];
+  float R [4] = {0,0,0,0};
+
+  std::cout << "Please, enter the values of the the element in the matrix:\n\n";
+
+  for (int i = 0; i < 4; i++){
+    for (int j = 0; j < 4; j++){
+      std::cin >> M[i][j];
+    }
+    std::cout << std::endl;
+  }
+
+  std::cout << "\n\nPlease, enter the values of the elements in the vector:\n\n";
+
+  for (int i = 0; i < 4; i++){
+    std::cin >> V[i];
+  }
+
+  std::cout << "\n\nHere is your matrix:\n\n";
+  
+  for (int i = 0; i < 4; i++){
+    for (int j = 0; j < 4; j++){
+      std::cout << M[i][j] << " ";
+    }
+    std::cout << std::endl;
+  }
+
+  std::cout << "\n\nHere is your vector:\n\n";
+
+  for (int i = 0; i < 4; i++){
+    std::cout << V[i] << " ";
+  }
+
+  // Их произведением будет новый 4-х компонентный вектор R. Его компоненты будут суммой произведений компонент вектора V на строку матрицы M. Индекс столбца при этом равен индексу соответствующей компоненты вектора R, который мы и рассчитываем в текущий момент времени.
+
+  for (int i = 0; i < 4; i++){
+    for(int j = 0; j < 4; j++){
+      R[i] += (V[i] * M[i][j]);
+    }
+  }
+
+  std::cout << "\n\nHere is the result of the multiplication:\n\n";
+  for (int i = 0; i < 4; i++){
+    std::cout << R[i] << " ";
+  }
+
+  
+}
