@@ -1,0 +1,78 @@
+#include <iostream>
+
+bool CorrectCheck(std::string text){
+  if (text.length() == 3 && (text[0] == 'X' || text[0] == 'O' || text[0] == '.') && (text[1] == 'X' || text[1] == 'O' || text[1] == '.') && (text[2] == 'X' || text[2] == 'O' || text[2] == '.')){
+    return true;
+  } else {
+    return false;
+  } 
+}
+
+void Result(std::string lineOne, std::string lineTwo, std::string lineThree){
+
+  int counterX = 0;
+  int counterO = 0;
+  for(int a = 0; a < 3; a++){
+    if (lineOne[a] == 'X') counterX++;
+    if (lineOne[a] == 'O') counterO++;
+  }
+  for(int a = 0; a < 3; a++){
+    if (lineTwo[a] == 'X') counterX++;
+    if (lineTwo[a] == 'O') counterO++;
+  }
+  for(int a = 0; a < 3; a++){
+    if (lineThree[a] == 'X') counterX++;
+    if (lineThree[a] == 'O') counterO++;
+  }
+
+  if (counterX > 5 || counterO > 4 || (counterX - counterO > 1)|| (counterX - counterO < 0)){
+
+    std::cout << "Invalid results of the game!\n";
+
+  } else if ((lineOne[0] == lineOne[1] && lineOne[0] == lineOne[2] && lineOne[0] == 'X') || (lineTwo[0] == lineTwo[1] && lineTwo[0] == lineTwo[2] && lineTwo[0] == 'X') || (lineThree[0] == lineThree[1] && lineThree[0] == lineThree[2] && lineThree[0] == 'X') || (lineOne[0] == lineTwo[0] && lineOne[0] == lineThree[0] && lineOne[0] == 'X') || (lineOne[1] == lineTwo[1] && lineOne[1] == lineThree[1] && lineOne[1] == 'X') || (lineOne[2] == lineTwo[2] && lineOne[2] == lineThree[2] && lineOne[2] == 'X') || (lineOne[0] == lineTwo[1] && lineOne[0] == lineThree[2] && lineOne[0] == 'X') || (lineOne[2] == lineTwo[1] && lineOne[2] == lineThree[0] && lineOne[2] == 'X')){
+
+    std::cout << "Petya Won\n";
+    
+  } else if ((lineOne[0] == lineOne[1] && lineOne[0] == lineOne[2] && lineOne[0] == 'O') || (lineTwo[0] == lineTwo[1] && lineTwo[0] == lineTwo[2] && lineTwo[0] == 'O') || (lineThree[0] == lineThree[1] && lineThree[0] == lineThree[2] && lineThree[0] == 'O') || (lineOne[0] == lineTwo[0] && lineOne[0] == lineThree[0] && lineOne[0] == 'O') || (lineOne[1] == lineTwo[1] && lineOne[1] == lineThree[1] && lineOne[1] == 'O') || (lineOne[2] == lineTwo[2] && lineOne[2] == lineThree[2] && lineOne[2] == 'O') || (lineOne[0] == lineTwo[1] && lineOne[0] == lineThree[2] && lineOne[0] == 'O') || (lineOne[2] == lineTwo[1] && lineOne[2] == lineThree[0] && lineOne[2] == 'O')){
+
+    std::cout << "Vasya Won\n";
+  
+  } else if(lineOne[0] == '.' || lineOne[1] == '.' || lineOne[2] == '.' || lineTwo[0] == '.' || lineTwo[1] == '.' || lineTwo[2] == '.' || lineThree[0] == '.' || lineThree[1] == '.' || lineThree[2] == '.'){
+
+    std::cout << "The Game is not finished\n";
+
+  } else {
+    std::cout << "It's a tie!\n";
+  }
+}
+
+int main() {
+  std::string lineOne;
+  std::string lineTwo;
+  std::string lineThree;
+  std::cout << "Please enter the results of the tic-tac-toe game, by using X, O and the dot symbol on the keyboard.\n";
+  std::cout << "\n\n\n";
+  std::cout << "Please enter the first line:\n";
+  std::cin >> lineOne;
+  while (CorrectCheck(lineOne) == false){
+    std::cout << "Incorrect input! Please, try again.\n";
+    std::cin >> lineOne;
+  }
+  std::cout << "Please enter the second line:\n";
+  std::cin >> lineTwo;
+  while (CorrectCheck(lineTwo) == false){
+    std::cout << "Incorrect input! Please, try again.\n";
+    std::cin >> lineTwo;
+  }
+  std::cout << "Please enter the third line:\n";
+  std::cin >> lineThree;
+  while (CorrectCheck(lineThree) == false){
+    std::cout << "Incorrect input! Please, try again.\n";
+    std::cin >> lineThree;
+  }
+
+  std::cout << "Here is the complete game field:\n" << lineOne << "\n" << lineTwo << "\n" << lineThree << "\n\n";
+
+  Result (lineOne, lineTwo, lineThree);
+
+}
