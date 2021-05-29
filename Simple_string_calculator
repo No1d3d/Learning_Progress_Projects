@@ -1,0 +1,61 @@
+#include <iostream>
+#include <sstream>
+
+
+bool CheckString(std::string someString){
+
+  int dots = 0;
+  for (int i = 0; i < someString.length(); i++){
+    if (someString[i] == '.') dots++;
+    if ((someString[i] < '-'  || someString[i] > '9') && (someString[i] < '*' || someString[i] > '+')){
+      return false;
+    } else if (someString[i] == '.' && someString[i+1] == '.'){
+      return false;
+    } else if (dots > 2){
+      return false;
+    }
+  }
+  return true;
+
+}
+
+int main() {
+  std::string expression;
+  
+  std::cout << "Welcome to a string calculator!\nPlease, use the following format to perform the calculation: <number1>(action)<number2>\nPossible actions: +, -, *, /\n\n";
+
+  std::cout << "Please, enter an expression to calculate:   ";
+  std::cin >> expression;
+  while (CheckString(expression) == false){
+    std::cout << "\n\nInvalid input! Please, use the set format to perform the operation!\nTry again:   ";
+    std::cin >> expression;
+  }
+
+  std::stringstream expressionToStream;
+  expressionToStream << expression;
+  char operation;
+  int adress;
+  double numberOne;
+  double numberTwo;
+
+  expressionToStream >> numberOne >> operation >> numberTwo;
+  
+
+  switch (operation){
+
+    case '+': 
+      std::cout << "The result is " << (numberOne) + (numberTwo) << std::endl;
+      break;
+    case '-':
+      std::cout << "The result is " << (numberOne) - (numberTwo) << std::endl;
+      break;
+    case '*':
+      std::cout << "The result is " << (numberOne) * (numberTwo) << std::endl;
+      break;
+    case '/':
+      std::cout << "The result is " << (numberOne) / (numberTwo) << std::endl;
+      break;
+    
+  }
+  
+}
