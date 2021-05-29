@@ -1,0 +1,22 @@
+#include <iostream>
+
+int main() {
+  std::string name;
+  int length;
+  std::cout << "Введите свой ник ( без пробелов ):   ";
+  std::cin >> name;
+  std::cout << "Из скольки символов состоит ваш ник?   ";
+  std::cin >> length;
+  std::cout << "\n\n\n";
+
+  for (int x = 0; x < 3; x++){
+    for(int y = 0; y < length; y++){
+      if (x == 0 || x == 2){
+        std::cout << "~";
+      } else if (x == 1 && y == 0) {
+        std::cout << name;
+      }
+    }
+    std::cout << "\n";
+  }
+}
