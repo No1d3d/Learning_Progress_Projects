@@ -1,0 +1,101 @@
+#include <iostream>
+
+bool Win (char field[3][3]){
+
+  if ((field[0][0] == field[0][1] && field[0][0] == field[0][2] && field[0][0] != ' ') ||
+      (field[1][0] == field[1][1] && field[1][0] == field[1][2] && field[1][0] != ' ') ||
+      (field[2][0] == field[2][1] && field[2][0] == field[2][2] && field[2][0] != ' ') ||
+      (field[0][0] == field[1][0] && field[0][0] == field[2][0] && field[0][0] != ' ') ||
+      (field[0][1] == field[1][1] && field[0][1] == field[2][1] && field[0][1] != ' ') ||
+      (field[0][2] == field[1][2] && field[0][2] == field[2][2] && field[0][2] != ' ') ||
+      (field[0][0] == field[1][1] && field[0][0] == field[2][2] && field[0][0] != ' ') ||
+      (field[2][0] == field[1][1] && field[2][0] == field[0][2] && field[2][0] != ' ') ){
+
+        if ( field[0][0] == 'X' || field[0][1] == 'X' || field[0][2] == 'X' || field[1][0] == 'X' || field[1][1] == 'X' || field[1][2] == 'X' || field[2][0] == 'X' || field[2][1] == 'X' || field[2][2] == 'X' ) {
+          std::cout << "X won the game!\n";
+          return true;
+        } else {
+          std::cout << "O won the game!\n";
+          return true;
+        }
+      } else {
+        return false;
+      }
+  
+}
+
+bool Tie (char field[3][3]){
+
+  for (int c = 0; c < 3; c++){
+    for (int d = 0; d < 3; d++){
+      if ( field[c][d] == ' '){
+        return false;
+      }
+    }
+  }
+  return true;
+
+}
+
+void ShowField(char field[3][3]){
+
+  for (int a = 0; a < 3; a++){
+    for (int b = 0; b < 3; b++){
+      std::cout << field [a][b] << " ";
+    }
+    std::cout << std::endl;
+  }
+
+}
+
+int main() {
+
+  int i;
+  int j;
+  int turn = 0;
+  char field [3][3] = { {' ',' ',' '},
+                        {' ',' ',' '},
+                        {' ',' ',' '} };
+
+
+  std::cout << "Welcome to a game of Tic-Tac-Toe!\nTake turns, by entering the coordinates of the position, where you want to put your X or O.\nThe first participant to collect a line of 3 equal signs wins.\nX goes first.\n\n";
+
+  while(true){
+
+    std::cout << "Please, enter the coordinates.\n\n";
+    std::cin >> i >> j;
+
+    while (i < 0 || i > 2 || j < 0 || j > 2){
+      std::cout << "Please, try again! You can only type 0, 1 or 2 to choose your coordinates!\n";
+      std::cin >> i >> j;
+    }
+
+    while(field[i][j] != ' '){
+      std::cout << "You can not put this here! Please, choose another coordinate!\n\n";
+      std::cin >> i >> j;
+    }
+
+    if (turn % 2 == 0){
+      field[i][j] = 'X';
+      turn ++;
+    } else {
+      field[i][j] = 'O';
+      turn++;
+    }
+
+    std::cout << "\n\n\n";
+
+    ShowField(field);
+
+    std::cout << "\n\n\n";
+
+    if ( Win(field) == true ){
+      break;
+    } else if ( Tie(field) == true ){
+      std::cout << "Tie!\n";
+      break;
+    }
+
+
+  }
+}
