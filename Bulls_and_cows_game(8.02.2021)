@@ -1,0 +1,34 @@
+#include <iostream>
+
+int main() {
+
+  std::string number1;
+  std::string number2;
+
+  std::cout << "Please, enter the first number: ";
+  std::cin >> number1;
+  while (number1.length() != 4 || number1[0] < '0' || number1[0] > '9' || number1[1] < '0' || number1[1] > '9' || number1[2] < '0' || number1[2] > '9' || number1[3] < '0' || number1[3] > '9'){
+    std::cout << "Invalid input! The number should be a positive 4-digit integer!\n";
+    std::cout << "Please, enter the first number: ";
+    std::cin >> number1;
+  }
+
+  std::cout << "Please, enter the second number:   ";
+  std::cin >> number2;
+  while (number2.length() != 4 || number2[0] < '0' || number2[0] > '9' || number2[1] < '0' || number2[1] > '9' || number2[2] < '0' || number2[2] > '9' || number2[3] < '0' || number2[3] > '9'){
+    std::cout << "Invalid input! The number should be a positive 4-digit integer!\n";
+    std::cout << "Please, enter the second number:   ";
+    std::cin >> number2;
+  }
+  
+  int i = 0;
+  int bulls = 0;
+  int cows = 0;
+
+  while(i < number1.length()){
+    if (number2[i] == number1[i]) bulls++;   
+    if ((number2[i] == number1[0] || number2[i] == number1[1] || number2[i] == number1[2] || number2[i] == number1[3]) && number2[i] != number1[i]) cows++;
+    i++;
+  }
+  std::cout << "The second number has " << bulls << " bulls and " << cows << " cows.\n";
+}
