@@ -1,0 +1,51 @@
+#include <iostream>
+
+int Possible_paths(int k, int m = 3){
+
+  if (k < 0) {
+    return 0;
+  }
+
+  if (k == 0) {
+    return 1;
+  }
+ 
+  int res = 0;
+  for (int i = 1; i <= m; i++) {
+    res += Possible_paths(k - i, m);
+  }
+ 
+  return res;
+
+}
+
+int main() {
+  char answer;
+  int n, l;
+  std::cout << "Please, enter the number of the final step location(destination) of a rabbit:   ";
+  std::cin >> n;
+  while (n <= 0 ){
+    std::cout << "Invalid input!\nThe number can not be less or equal to zero!\nPlease, enter the number of the final location(destination) of a rabbit:   ";
+    std::cin >> n;
+  }
+  std::cout << "Would you like to set the limit for the jump length fo the rabbit (y/n)?   ";
+  std::cin >> answer;
+  while (answer != 'n' && answer != 'y'){
+    std::cout << "Invalid input! Please, use only y or n to answer. Please, try again:   ";
+    std::cin >> answer;
+  }
+  if (answer == 'y'){
+    std::cout << "Please, enter the limit for the jump length:   ";
+    std::cin >> l;
+    while (l <= 0 ){
+      std::cout << "Invalid input!\nThe number can not be less or equal to zero!\nPlease, enter the limit for the jump length:   ";
+      std::cin >> l;
+    }
+    std::cout << Possible_paths(n, l);
+  } else {
+    std::cout << Possible_paths(n) << std::endl;
+  }
+
+  
+
+}
