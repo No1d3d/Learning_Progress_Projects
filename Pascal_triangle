@@ -1,0 +1,27 @@
+#include <iostream>
+
+int main() {
+  int h;
+  std::cout << "Сколько линий треугольника вы хотите видеть?   ";
+  std::cin >> h;
+
+  while (h <= 0) {
+    std::cout << "Ошибка! Количество линий должно указываться положительным целым числом больше нуля!\n";
+    std::cout << "Сколько линий треугольника вы хотите видеть?   ";
+    std::cin >> h;
+  } 
+
+  for (int lines = 1; lines <= h; lines++){
+    for (int symbol = 0; symbol < (h - lines); symbol++){
+      std::cout << " ";
+    }
+    int number = 1;
+    for(int symbol = 1; symbol <= lines; symbol++){
+      std::cout << number << " ";
+      number = number * (lines - symbol) / symbol;
+    }
+    std::cout << "\n";
+  }
+}
+
+//(factorial(lines) / (factorial(symbol) * factorial(lines - symbol)));
