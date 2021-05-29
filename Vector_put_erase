@@ -1,0 +1,24 @@
+#include <iostream>
+#include <vector>
+
+int main() {
+  std::vector <int> base;
+  int number;
+
+  std::cout << "Please, enter an integer number to put in the base: \n\n";
+
+  while (number != -1){
+    std::cin >> number;
+    if (number == -1) break;
+    base.push_back(number);
+    if (base.size() > 20){
+      base.erase(base.begin());
+    }
+  }
+
+  std::cout << "\n\n\n";
+  
+  for (int i = 0; i < base.size(); i++) {
+    std::cout << base[i] << std::endl; 
+  }
+}
