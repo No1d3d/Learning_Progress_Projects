@@ -1,0 +1,49 @@
+#include <iostream>
+#include <string>
+
+bool Check (std::string number){
+  bool check = true;
+  int dots = 0;
+  for (int i = 0; i < number.length(); i++){
+    if (number[i] == '.') dots++;
+    if ((number[i] < '-' || number[i] > '.') && (number[i] < '0' || number[i] > '9')){
+      check = false;
+      break;
+    } else if (number[i] == '-' && i != 0){
+      check = false;
+      break;
+    } else if (dots > 1){
+      check = false;
+      break;
+    } else if (i == number.length() - 1){
+      check = true;
+    }
+  }
+  return check;
+}
+
+void Comparison (std::string number1, std::string number2){
+  
+  if (std::stold(number1) == std::stold(number2)){
+    std::cout << "Equal\n";
+  } else { 
+    std::cout << (std::stold(number1) > std::stold(number2) ? "More" : "Less");
+  }
+}
+
+int main() {
+  std::string number1, number2;
+  std::cout << "Please, enter two numbers.\n\n\n";
+  std::cin >> number1;
+  while (Check(number1) == false){
+    std::cout << "Invalid input! Please, try again!\n\n";
+    std::cin >> number1;
+  }
+  std::cin >> number2;
+  while (Check(number2) == false){
+    std::cout << "Invalid input! Please, try again!\n\n";
+    std::cin >> number2;
+  }
+
+  Comparison(number1, number2);
+}
