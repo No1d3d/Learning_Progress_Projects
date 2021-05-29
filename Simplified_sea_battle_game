@@ -1,0 +1,381 @@
+#include <iostream>
+
+//This fumction checks if the ship is alligned propperly (no diagonal positioning) and if it crosses the borders of the other ships
+
+bool CheckCoordinates (char field[10][10], int e, int r, int g, int h, int ships){
+
+  if (  ((r < h || r > h) && (e != g)) || ((e < g || e > g) && (r != h))    ){
+
+    return false;
+
+  } else if (ships < 14 && (field[e][r] != 'O' || field[g][h] != 'O')){
+
+    return false;
+
+  } else if (ships < 18 && (field[e][r] != 'O' || field[g][h] != 'O' || (e == g && field[e][(r+h)/2] != 'O') || (r == h && field[(e+g)/2][r] != 'O') ) ){
+
+    return false;
+
+  } else if (ships
+   < 20 && (field[e][r] != 'O' || field[g][h] != 'O' || (e == g && r < h && (field[e][r+1] != 'O' || field[e][r+2] != 'O')) || (e == g && r > h && (field[e][r-1] != 'O' || field[e][r-2] != 'O')) || (r == h && e < g && (field[e+1][r] != 'O' || field [e+2][r] != 'O')) || (r == h && e > g && (field[e-1][r] != 'O' || field [e-2][r] != 'O')) ) ){
+
+    return false;
+
+  } else {
+
+    return true;
+
+  }
+
+}
+
+//This function checks the battlefield to detect if it is clear of ships (#)
+
+bool Win (char field[10][10]){
+
+  for (int t = 0; t < 10; t++){
+    for (int y = 0; y < 10; y++){
+      if (field[t][y] == '#')
+      return false;
+    }
+  }
+  return true;
+}
+
+//This function displays the battlefield
+
+void Display (char field[10][10]){
+
+  for (int m = 0; m < 10; m++){
+    for (int n = 0; n < 10; n++){
+      std::cout << field[m][n];
+    }
+    std::cout << std::endl;
+  }
+
+}
+
+//This function places ships on the battlefield
+
+void Place (std::string name, char sea [10][10], int shipsOnField){
+  
+  int i;
+  int j;
+  int a;
+  int b;
+
+  if (shipsOnField < 8){ 
+
+    std::cout << "\n\n" << name << ", your turn! Choose a coordinate to put your one decker ship!\n\n";
+    std::cin >> i >> j;
+    while (i < 0 || i > 9 || j < 0 || j > 9){
+      std::cout << "\nInvalid coordinate! Please, use numbers in the diaposone from 0 to 9 to put your ships!\n\n";
+      std::cin >> i >> j;
+    }
+    while (sea[i][j] != 'O'){
+    std::cout << "\nThere seems to be another ship on these coordinates! Please, choose the other coordinate!\n\n";
+      std::cin >> i >> j;
+    }
+    sea[i][j] = '#';
+    return;
+
+  } else if (shipsOnField < 14){
+
+    std::cout << "\n\n" << name << ", your turn! Choose a set of coordinates to put your two decker ship!\n\n";
+    std::cin >> i >> j >> a >> b;
+    while (i < 0 || i > 9 || j < 0 || j > 9 || a < 0 || a > 9 || b < 0 || b > 9){
+      std::cout << "\nInvalid coordinate! Please, use numbers in the diaposone from 0 to 9 to put your ships!\n\n";
+      std::cin >> i >> j >> a >> b;
+    }
+    while (i == a && j == b){
+      std::cout << "\nPlease, enter the coordinates that differ from each-other by one unit and are located in the same axis!\n\n";
+      std::cin >> i >> j >> a >> b;
+    }
+    while (CheckCoordinates(sea, i, j, a, b, shipsOnField) == false){
+      std::cout << "\nThere is either another ship positioned in this set of coordinates or the chosen coordinates form a diagonal line!\nPlease, choose the other coordinates!\n\n";
+      std::cin >> i >> j >> a >> b;
+    }
+    sea[i][j] = '#';
+    sea[a][b] = '#';
+    return;
+
+  } else if (shipsOnField < 18){
+
+    std::cout << "\n\n" << name << ", your turn! Choose a set of coordinates to put your three decker ship!\n\n";
+    std::cin >> i >> j >> a >> b;
+    while (i < 0 || i > 9 || j < 0 || j > 9 || a < 0 || a > 9 || b < 0 || b > 9){
+      std::cout << "\nInvalid coordinate! Please, use numbers in the diaposone from 0 to 9 to put your ships!\n\n";
+      std::cin >> i >> j >> a >> b;
+      }
+    while (   (i == a && j == b) || (i == a && ((j < b && ((b + j)/2) != j + 1) || (j > b && ((j + b)/2) != b + 1))) || (j == b && ((i < a && ((a + i)/2) != i + 1) || (i > a && ((i + a)/2) != a + 1 )))   ){
+      std::cout << "\nPlease, enter the coordinates that differ from each-other by two units and are located in the same axis!\n\n";
+      std::cin >> i >> j >> a >> b;
+    }
+    while (CheckCoordinates(sea, i, j, a, b, shipsOnField) == false){
+      std::cout << "\nThere is either another ship positioned in this set of coordinates or the chosen coordinates form a diagonal line!\nPlease, choose the other coordinates!\n\n";
+      std::cin >> i >> j >> a >> b;
+    }
+    if (i == a){
+      sea[i][j] = '#';
+      sea[a][b] = '#';
+      sea[i][(j+b)/2] = '#';
+    } else if (j == b){
+      sea[i][j] = '#';
+      sea[a][b] = '#';
+      sea[(i+a)/2][j] = '#';
+    }
+    return;
+
+  } else if (shipsOnField < 20){
+
+    std::cout << "\n\n" << name << ", your turn! Choose a set of coordinates to put your four decker ship!\n\n";
+    std::cin >> i >> j >> a >> b;
+    while (i < 0 || i > 9 || j < 0 || j > 9 || a < 0 || a > 9 || b < 0 || b > 9){
+      std::cout << "\nInvalid coordinate! Please, use numbers in the diaposone from 0 to 9 to put your ships!\n\n";
+      std::cin >> i >> j >> a >> b;
+    }
+    while (   (i == a && j == b) || (i == a && ((j < b && j + 2 != b - 1) || (j > b && b + 2 != j - 1))) || (j == b && ((i < a && i + 2 != a - 1) || (i > a && a + 2 != i - 1 )))   ){
+      std::cout << "\nPlease, enter the coordinates that differ from each-other by three units and are located in the same axis!\n\n";
+      std::cin >> i >> j >> a >> b;
+    }
+    while (CheckCoordinates(sea, i, j, a, b, shipsOnField) == false){
+      std::cout << "\nThere is either another ship positioned in this set of coordinates or the chosen coordinates form a diagonal line!\nPlease, choose the other coordinates!\n\n";
+      std::cin >> i >> j >> a >> b;
+    }
+    if (i == a && j < b){
+      sea[i][j] = '#';
+      sea[a][b] = '#';
+      sea[i][j+1] = '#';
+      sea[i][j+2] = '#';
+    } else if (i == a && j > b){
+      sea[i][j] = '#';
+      sea[a][b] = '#';
+      sea[i][j-1] = '#';
+      sea[i][j-2] = '#';
+    } else if (j == b && i < a){
+      sea[i][j] = '#';
+      sea[a][b] = '#';
+      sea[i+1][j] = '#';
+      sea[i+2][j] = '#';
+    } else if (j == b && i > a){
+      sea[i][j] = '#';
+      sea[a][b] = '#';
+      sea[i-1][j] = '#';
+      sea[i-2][j] = '#';
+    }
+    return;
+
+  }
+
+}
+
+
+
+
+int main() {
+
+//player names
+  std::string player1;
+  std::string player2;
+//battlefields
+  char field1[10][10] ={{'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},};
+
+
+  char field2[10][10] ={{'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},
+                        {'O','O','O','O','O','O','O','O','O','O'},};
+
+//greetings
+  std::cout << "Hello, and welcome to the game of Battle-ships!\nTo play this game, you need two players.\n\nPlayer one, please, enter your name (one word without spaces!): ";
+  std::cin >> player1;
+  std::cout << "\nPlayer two, please, enter your name (one word without spaces!): ";
+  std::cin >> player2;
+  std::cout << "\nNow, let's begin by placing down the ships on the battlefield!\nEach player has:\n\n   one four-decker ship\n   two three-decker ships\n   three two-decker ships\n   four one-decker ships.\n\n";
+  
+//Players take their turns in placing down the ships
+
+  int shipsPlaced = 0;
+  
+  int i;
+  int j;
+  int a;
+  int b;
+
+  while (shipsPlaced < 20){
+  
+    while (shipsPlaced < 8){
+      
+      if (shipsPlaced % 2 == 0){
+
+        Display(field1);
+
+        Place (player1, field1, shipsPlaced);
+
+        shipsPlaced++;
+
+      } else {
+
+        Display(field2);
+
+        Place (player2, field2, shipsPlaced);
+
+        shipsPlaced++;
+
+      }
+
+    }
+
+    while (shipsPlaced < 14){
+
+      if (shipsPlaced % 2 == 0){
+
+        Display(field1);
+
+        Place(player1, field1, shipsPlaced);
+
+        shipsPlaced++;
+
+      } else {
+
+        Display(field2);
+
+        Place(player2, field2, shipsPlaced);
+
+        shipsPlaced++;
+
+      }
+
+    }
+
+    while (shipsPlaced < 18){
+
+      if (shipsPlaced % 2 == 0){
+
+        Display(field1);
+
+        Place(player1, field1, shipsPlaced);
+
+        shipsPlaced++;
+
+      } else {
+
+        Display(field2);
+
+        Place(player2, field2, shipsPlaced);
+
+        shipsPlaced++;
+
+      }
+
+    }
+
+    while (shipsPlaced < 20){
+
+      if (shipsPlaced % 2 == 0){
+
+        Display(field1);
+
+        Place(player1, field1, shipsPlaced);
+
+        shipsPlaced++;
+
+      } else {
+
+        Display(field2);
+
+        Place(player2, field2, shipsPlaced);
+
+        shipsPlaced++;
+
+      }
+
+    }
+
+
+  }
+
+//The game itself
+
+  int turns = 0;
+  bool finish = false;
+
+  std::cout << "\n\n\nAll set! The first player to destroy all of the opponents ships wins!\nTo play, simply enter the coordinates of where you want to shoot\n" << player1 << " goes first\n\n\n";
+
+  while (finish == false) {
+
+    if (turns % 2 == 0) {
+
+      std::cout << "Field of player " << player1 << "\n\n";
+
+      Display(field1);
+
+      std::cout << "\n\n" << player1 << ", your turn!\nPlease, enter a coordinate to shoot at:   ";
+      std::cin >> i >> j;
+      while (i < 0 || i > 9 || j < 0 || j > 9){
+        std::cout << "\nInvalid coordinate! Please, use numbers from 0 to 9 to choose the coordinates!\n\n";
+        std::cin >> i >> j;
+      }
+      if (field2[i][j] == 'O'){
+        std::cout << "Miss!\n\n";
+        turns++;
+      } else if (field2[i][j] == '#'){
+        std::cout << "Hit!\n\n";
+        field2[i][j] = 'O';
+        if (Win(field2) == true){
+          std::cout << "\n\n" << player1 << " won! Congratulations!\n";
+          finish = true;
+          break;
+        }
+        turns++;
+      }
+
+    } else {
+
+
+      std::cout << "Field of player " << player2 << "\n\n";
+
+      Display(field2);
+
+      std::cout << "\n\n" << player2 << ", your turn!\nPlease, enter a coordinate to shoot at:   ";
+      std::cin >> i >> j;
+      while (i < 0 || i > 9 || j < 0 || j > 9){
+        std::cout << "\nInvalid coordinate! Please, use numbers from 0 to 9 to choose the coordinates!\n\n";
+        std::cin >> i >> j;
+      }
+      if (field1[i][j] == 'O'){
+        std::cout << "Miss!\n\n";
+        turns++;
+      } else if (field1[i][j] == '#'){
+        std::cout << "Hit!\n\n";
+        field1[i][j] = 'O';
+        if (Win(field1) == true){
+          std::cout << "\n\n" << player2 << " won! Congratulations!\n";
+          finish = true;
+          break;
+        }
+        turns++;
+      }
+      
+    } 
+
+
+  }
+  
+
+}
