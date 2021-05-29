@@ -1,0 +1,36 @@
+#include <iostream>
+
+int main() {
+
+  float size;
+  float speed;
+
+  std::cout << "Укажите Размер файла для скачивания:   ";
+  std::cin >> size;
+  while (size <= 0) {
+    std::cout << "Размер файла не может быть меньше или равным нулю!\n";
+    std::cout << "Укажите Размер файла для скачивания:   ";
+    std::cin >> size;
+  }
+
+  std::cout << "Укажите скорость вашего интернет соединения:   ";
+  std::cin >> speed;
+  while (size <= 0) {
+    std::cout << "Cкорость интернет соединения для скачивания файлов не может быть меньше или равна нулю!\n";
+    std::cout << "Укажите скорость вашего интернет соединения:   ";
+    std::cin >> speed;
+  }
+
+  int time = 1;
+
+  for (float progress = speed; progress <= size + speed; progress += speed){
+    if (progress >= size){
+      progress = size;
+      std::cout << "Прошло " << time << " секунд. Скачано " << progress << " из " << size << " МБ (" << (progress * 100)/ size << "%)\n";
+      std::cout << "Загрузка завершена!\n";
+      break;
+    }
+    std::cout << "Прошло " << time << " секунд. Скачано " << progress << " из " << size << " МБ (" << (int) ((progress * 100)/ size) << "%)\n";
+    time++;
+  }
+}
